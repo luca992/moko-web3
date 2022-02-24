@@ -5,7 +5,7 @@
 plugins {
     id("multiplatform-library-convention")
     id("publication-convention")
-    id("kotlinx-serialization")
+    kotlin("plugin.serialization")
 }
 
 kotlin {

@@ -164,7 +164,7 @@ object ABIDecoder {
                         put("type", typeAnnotation)
                     })
                 }
-            },
+            } as List<JsonObject>,
             callData = callData
         )
 

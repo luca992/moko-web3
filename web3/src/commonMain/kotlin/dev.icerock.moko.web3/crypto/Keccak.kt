@@ -9,8 +9,8 @@ import com.soywiz.kbignum.BigInt
 import kotlin.math.min
 
 object Keccak {
-    private val BIT_65 = BigInt.ONE.shl(64)
-    private val MAX_64_BITS = BIT_65.minus(BigInt.ONE)
+    private val BIT_65 = BigInt(1).shl(64)
+    private val MAX_64_BITS = BIT_65.minus(BigInt(1))
 
     fun digest(value: ByteArray, parameter: KeccakParameter): ByteArray {
         val uState = IntArray(200)
@@ -62,7 +62,7 @@ object Keccak {
     }
 
     private fun doF(uState: IntArray) {
-        val lState = Array(5) { Array(5) { BigInt.ZERO } }
+        val lState = Array(5) { Array(5) { BigInt(0) } }
 
         for (i in 0..4) {
             for (j in 0..4) {
@@ -143,7 +143,7 @@ object Keccak {
                 // pow(2, i) - 1
                 val bitPosition = (1 shl i) - 1
                 if (lfsrState and 2 != 0) {
-                    state[0][0] = state[0][0].xor(BigInt.ONE.shl(bitPosition))
+                    state[0][0] = state[0][0].xor(BigInt(1).shl(bitPosition))
                 }
             }
         }
