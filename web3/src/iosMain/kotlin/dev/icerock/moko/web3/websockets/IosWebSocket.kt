@@ -4,14 +4,10 @@
 
 package dev.icerock.moko.web3.websockets
 
-import io.ktor.client.features.websocket.WebSocketException
-import io.ktor.http.cio.websocket.CloseReason
-import io.ktor.http.cio.websocket.DefaultWebSocketSession
-import io.ktor.http.cio.websocket.ExperimentalWebSocketExtensionApi
-import io.ktor.http.cio.websocket.Frame
-import io.ktor.http.cio.websocket.WebSocketExtension
-import io.ktor.http.cio.websocket.readText
+
+import io.ktor.client.plugins.websocket.*
 import io.ktor.util.InternalAPI
+import io.ktor.websocket.*
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -49,7 +45,6 @@ internal class IosWebSocket(
     override val outgoing: SendChannel<Frame> = _outgoing
     override val closeReason: Deferred<CloseReason?> = _closeReason
 
-    @ExperimentalWebSocketExtensionApi
     override val extensions: List<WebSocketExtension<*>>
         get() = emptyList()
 
@@ -59,7 +54,9 @@ internal class IosWebSocket(
 
     override suspend fun flush() = Unit
 
-    @OptIn(ExperimentalWebSocketExtensionApi::class)
+    override suspend fun send(frame: Frame) = Unit
+
+
     @InternalAPI
     override fun start(negotiatedExtensions: List<WebSocketExtension<*>>) {
         require(negotiatedExtensions.isEmpty()) { "Extensions are not supported." }

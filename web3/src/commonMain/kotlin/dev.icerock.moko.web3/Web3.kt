@@ -8,9 +8,9 @@ import dev.icerock.moko.web3.annotation.DelicateWeb3Api
 import dev.icerock.moko.web3.entity.RpcRequest
 import dev.icerock.moko.web3.entity.RpcResponse
 import io.ktor.client.HttpClient
-import io.ktor.client.features.*
-import io.ktor.client.request.post
-import io.ktor.client.request.url
+import io.ktor.client.call.*
+import io.ktor.client.plugins.*
+import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.decodeFromString
@@ -76,11 +76,11 @@ class Web3 @DelicateWeb3Api constructor(
             }.let { list -> json.encodeToString(list) }
 
         val responses = httpClient
-            .post<String> {
+            .post {
                 url(endpointUrl)
-                body = encodedToStringBody
+                setBody(encodedToStringBody)
             }.let { raw ->
-                json.decodeFromString<List<JsonObject>>(raw)
+                json.decodeFromString<List<JsonObject>>(raw.body())
             }
 
         // Here we are restoring the order

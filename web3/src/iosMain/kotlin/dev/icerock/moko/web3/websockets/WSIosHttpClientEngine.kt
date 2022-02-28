@@ -8,7 +8,7 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.HttpClientEngineCapability
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.callContext
-import io.ktor.client.features.websocket.WebSocketCapability
+import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.HttpRequestData
 import io.ktor.client.request.HttpResponseData
 import io.ktor.client.request.isUpgradeRequest
