@@ -5,7 +5,7 @@
 package dev.icerock.moko.web3.websockets
 
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.okhttp.OkHttp
 import java.util.concurrent.TimeUnit
 
 actual fun log(message: String) {
@@ -13,10 +13,10 @@ actual fun log(message: String) {
 }
 
 actual fun createHttpClientEngine(): HttpClientEngine {
-    return CIO.create {
-//        config {
-//            retryOnConnectionFailure(true)
-//            pingInterval(30, TimeUnit.SECONDS)
-//        }
+    return OkHttp.create {
+        config {
+            retryOnConnectionFailure(true)
+            pingInterval(30, TimeUnit.SECONDS)
+        }
     }
 }
