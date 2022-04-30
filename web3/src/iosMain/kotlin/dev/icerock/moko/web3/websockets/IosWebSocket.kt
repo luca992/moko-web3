@@ -42,7 +42,10 @@ internal class IosWebSocket(
     private val _closeReason = CompletableDeferred<CloseReason?>()
 
     override val incoming: ReceiveChannel<Frame> = _incoming
+    override var masking: Boolean = false
     override val outgoing: SendChannel<Frame> = _outgoing
+    override var pingIntervalMillis: Long = -1
+    override var timeoutMillis: Long = -1
     override val closeReason: Deferred<CloseReason?> = _closeReason
 
     override val extensions: List<WebSocketExtension<*>>
