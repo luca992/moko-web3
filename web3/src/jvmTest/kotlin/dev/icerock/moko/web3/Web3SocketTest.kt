@@ -9,16 +9,13 @@ package dev.icerock.moko.web3
 import dev.icerock.moko.web3.websockets.SubscriptionParam
 import dev.icerock.moko.web3.websockets.createHttpClientEngine
 import io.ktor.client.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.features.websocket.*
+import io.ktor.client.plugins.websocket.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
 import kotlin.test.BeforeTest
-import kotlin.test.Test
 
 class Web3SocketTest {
 
