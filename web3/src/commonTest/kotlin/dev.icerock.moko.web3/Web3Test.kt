@@ -7,6 +7,7 @@
 package dev.icerock.moko.web3
 
 import com.soywiz.kbignum.BigInt
+import com.soywiz.kbignum.CommonBigInt
 import com.soywiz.kbignum.bi
 import com.soywiz.kbignum.bn
 import dev.icerock.moko.web3.contract.ABIEncoder
@@ -426,13 +427,13 @@ class Web3Test {
             println("GAS Price: $price")
             println(
                 "GAS Limit: ${
-                    web3.getEstimateGas(
+                    (web3.getEstimateGas(
                         to = to,
                         from = from,
                         gasPrice = price,
                         callData = callData,
                         value = value
-                    ).toBigNum().times(1.1.bn)
+                    ) as CommonBigInt).toBigNum().times(1.1.bn)
                 }"
             )
         }
