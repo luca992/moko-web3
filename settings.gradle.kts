@@ -11,7 +11,7 @@ pluginManagement {
 }
 
 plugins {
-    kotlin("plugin.serialization") version "1.6.10" apply false
+    kotlin("plugin.serialization") version "1.6.21" apply false
 }
 
 enableFeaturePreview("VERSION_CATALOGS")
@@ -21,12 +21,6 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
-
-        jcenter {
-            content {
-                includeGroup("org.jetbrains.kotlinx")
-            }
-        }
     }
 }
 includeBuild("web3-build-logic")
