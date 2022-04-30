@@ -17,7 +17,7 @@ buildscript {
 
 allprojects {
     plugins.withId("org.gradle.maven-publish") {
-        group = "dev.icerock.moko"
+        group = "io.github.luca992.dev.icerock.moko"
         version = libs.versions.mokoWeb3Version.get()
     }
 }
