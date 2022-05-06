@@ -13,6 +13,14 @@ kotlin {
         all {
             languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
         }
+//        val iosMain by getting
+//        val iosSimulatorArm64Main by getting {
+//            dependsOn(iosMain)
+//        }
+//        val iosTest by getting
+//        val iosSimulatorArm64Test by getting {
+//            dependsOn(iosTest)
+//        }
     }
 }
 

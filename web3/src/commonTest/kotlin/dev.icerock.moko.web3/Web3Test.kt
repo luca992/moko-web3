@@ -432,7 +432,7 @@ class Web3Test {
                         gasPrice = price,
                         callData = callData,
                         value = value
-                    ).toBigNum().times(1.1.bn)
+                    ).toString().bn.times(1.1.bn)
                 }"
             )
         }
