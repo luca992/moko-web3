@@ -9,7 +9,7 @@ kbignumVersion = "2.5.0"
 klockVersion = "2.4.13"
 ktorClientVersion = "2.0.1"
 mokoTestVersion = "0.6.1"
-mokoWeb3Version = "0.18.2-ktor2"
+mokoWeb3Version = "0.18.3-ktor2"
 multidexVersion = "2.0.1"
 
 [libraries]
