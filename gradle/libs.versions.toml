@@ -33,7 +33,7 @@ ktorClientLogigng = { module = "io.ktor:ktor-client-logging", version.ref = "kto
 ktorClientOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientVersion" }
 ktorClientMock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientVersion" }
 ktorWebsockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktorClientVersion" }
-ktorClientIos = { module = "io.ktor:ktor-client-ios", version.ref = "ktorClientVersion" }
+ktorClientDarwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientVersion" }
 klock = { module = "com.soywiz.korlibs.klock:klock", version.ref = "klockVersion" }
 kotlinReflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlinVersion" }
 kotlinTestCommon = { module = "org.jetbrains.kotlin:kotlin-test-common", version.ref = "kotlinVersion" }

@@ -13,13 +13,43 @@ kotlin {
         all {
             languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
         }
-        val iosMain by getting
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
+        val commonMain by getting
+        val darwinMain by creating{
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.ktorClientDarwin)
+            }
         }
-        val iosTest by getting
+        val darwinTest by creating
+        val iosArm64Main by getting {
+            dependsOn(darwinMain)
+        }
+        val iosX64Main by getting {
+            dependsOn(darwinMain)
+        }
+        val iosSimulatorArm64Main by getting {
+            dependsOn(darwinMain)
+        }
+        val macosArm64Main by getting {
+            dependsOn(darwinMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(darwinMain)
+        }
+        val iosArm64Test by getting {
+            dependsOn(darwinTest)
+        }
+        val iosX64Test by getting {
+            dependsOn(darwinTest)
+        }
         val iosSimulatorArm64Test by getting {
-            dependsOn(iosTest)
+            dependsOn(darwinTest)
+        }
+        val macosArm64Test by getting {
+            dependsOn(darwinTest)
+        }
+        val macosX64Test by getting {
+            dependsOn(darwinTest)
         }
     }
 }
@@ -41,9 +71,6 @@ dependencies {
     jvmMainImplementation(libs.ktorClientOkHttp)
     jvmTestImplementation(libs.kotlinTest)
     jvmTestImplementation(libs.kotlinTestJunit)
-
-    iosMainImplementation(libs.ktorClientIos)
-    iosTestImplementation(libs.ktorClientIos)
 }
 
 // now standard test task use --standalone but it broke network calls
