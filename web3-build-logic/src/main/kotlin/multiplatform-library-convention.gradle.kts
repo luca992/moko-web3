@@ -8,6 +8,9 @@ plugins {
 
 kotlin {
     jvm()
-    ios()
-//    iosSimulatorArm64()
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+    macosX64()
+    macosArm64()
 }
