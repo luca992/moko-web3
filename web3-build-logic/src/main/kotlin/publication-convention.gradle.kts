@@ -15,8 +15,8 @@ publishing {
         name = "mavencentral"
 
         credentials {
-            username = System.getenv("OSSRH_USER")
-            password = System.getenv("OSSRH_KEY")
+            username = System.getenv("OSSRH_USER") ?: properties["mavenCentralUsername"].toString()
+            password = System.getenv("OSSRH_KEY") ?: properties["mavenCentralPassword"].toString()
         }
     }
 
