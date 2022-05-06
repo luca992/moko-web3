@@ -4,17 +4,17 @@
 
 package dev.icerock.moko.web3.contract
 
-import com.soywiz.kbignum.bi
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 
 object BoolParam : StaticEncoder<Boolean> {
     override fun encode(item: Boolean): ByteArray = when (item) {
-        true -> UInt256Param.encode(item = 1.bi)
-        false -> UInt256Param.encode(item = 0.bi)
+        true -> UInt256Param.encode(item = 1.toBigInteger())
+        false -> UInt256Param.encode(item = 0.toBigInteger())
     }
 
     override fun decode(source: ByteArray): Boolean =
         when (UInt256Param.decode(source)) {
-            0.bi -> false
+            0.toBigInteger() -> false
             else -> true
         }
 }

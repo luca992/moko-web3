@@ -4,22 +4,14 @@
 
 package dev.icerock.moko.web3.requests
 
-import com.soywiz.kbignum.BigInt
-import dev.icerock.moko.web3.BlockHash
-import dev.icerock.moko.web3.BlockInfo
-import dev.icerock.moko.web3.BlockState
-import dev.icerock.moko.web3.BlockStateSerializer
-import dev.icerock.moko.web3.ContractAddress
-import dev.icerock.moko.web3.EthereumAddress
-import dev.icerock.moko.web3.TransactionHash
-import dev.icerock.moko.web3.WalletAddress
-import dev.icerock.moko.web3.Web3RpcRequest
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import dev.icerock.moko.web3.*
 import dev.icerock.moko.web3.entity.LogEvent
 import dev.icerock.moko.web3.entity.Transaction
 import dev.icerock.moko.web3.entity.TransactionReceipt
 import dev.icerock.moko.web3.hex.Hex32String
 import dev.icerock.moko.web3.hex.HexString
-import dev.icerock.moko.web3.serializer.BigIntSerializer
+import dev.icerock.moko.web3.serializer.BigIntegerSerializer
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -54,7 +46,7 @@ object Web3Requests {
         method = "eth_getTransactionCount",
         params = listOf(walletAddress.prefixed, blockState.toString()),
         paramsSerializer = String.serializer(),
-        resultSerializer = BigIntSerializer
+        resultSerializer = BigIntegerSerializer
     )
 
     fun getTransactionReceipt(
@@ -73,7 +65,7 @@ object Web3Requests {
         method = "eth_getBalance",
         params = listOf(walletAddress.prefixed, blockState.toString()),
         paramsSerializer = String.serializer(),
-        resultSerializer = BigIntSerializer
+        resultSerializer = BigIntegerSerializer
     )
 
     fun getTransaction(
@@ -89,28 +81,28 @@ object Web3Requests {
         method = "eth_gasPrice",
         params = listOf(),
         paramsSerializer = ListSerializer(Unit.serializer()),
-        resultSerializer = BigIntSerializer
+        resultSerializer = BigIntegerSerializer
     )
 
     @Serializable
     private data class GetEstimateGasObject(
         val from: EthereumAddress?,
         val to: EthereumAddress,
-        @Serializable(with = BigIntSerializer::class)
-        val gasPrice: BigInt?,
+        @Serializable(with = BigIntegerSerializer::class)
+        val gasPrice: BigInteger?,
         @SerialName("data")
         val callData: HexString?,
-        @Serializable(with = BigIntSerializer::class)
-        val value: BigInt?
+        @Serializable(with = BigIntegerSerializer::class)
+        val value: BigInteger?
     )
 
     fun getEstimateGas(
         from: EthereumAddress?,
-        gasPrice: BigInt?,
+        gasPrice: BigInteger?,
         to: EthereumAddress,
         callData: HexString?,
-        value: BigInt?
-    ): Web3RpcRequest<*, BigInt> = Web3RpcRequest(
+        value: BigInteger?
+    ): Web3RpcRequest<*, BigInteger> = Web3RpcRequest(
         method = "eth_estimateGas",
         params = listOf(
             GetEstimateGasObject(
@@ -122,15 +114,15 @@ object Web3Requests {
             )
         ),
         paramsSerializer = GetEstimateGasObject.serializer(),
-        resultSerializer = BigIntSerializer
+        resultSerializer = BigIntegerSerializer
     )
 
     fun getEstimateGas(
         callRpcRequest: CallRpcRequest<*>,
         from: EthereumAddress?,
-        gasPrice: BigInt?,
-        value: BigInt?
-    ): Web3RpcRequest<*, BigInt> = getEstimateGas(
+        gasPrice: BigInteger?,
+        value: BigInteger?
+    ): Web3RpcRequest<*, BigInteger> = getEstimateGas(
         from = from,
         gasPrice = gasPrice,
         to = callRpcRequest.contractAddress,
@@ -142,7 +134,7 @@ object Web3Requests {
         method = "eth_blockNumber",
         params = listOf(),
         paramsSerializer = ListSerializer(Unit.serializer()),
-        resultSerializer = BigIntSerializer
+        resultSerializer = BigIntegerSerializer
     )
 
     fun getBlockByNumber(block: BlockState) = Web3RpcRequest(

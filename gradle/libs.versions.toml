@@ -5,7 +5,7 @@ materialDesignVersion = "1.4.0"
 lifecycleVersion = "2.3.1"
 coroutinesVersion = "1.6.1"
 kotlinxSerializationVersion = "1.3.2"
-kbignumVersion = "2.4.3"
+bignumVersion = "0.3.4"
 klockVersion = "2.4.13"
 ktorClientVersion = "2.0.1"
 mokoTestVersion = "0.6.1"
@@ -26,7 +26,7 @@ lifecycleReactiveStreams = { module = "androidx.lifecycle:lifecycle-reactivestre
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
 mokoTest = { module = "dev.icerock.moko:test-core", version.ref = "mokoTestVersion" }
 mokoWeb3 = { module = "dev.icerock.moko:web3", version.ref = "mokoWeb3Version" }
-kbignum = { module = "com.soywiz.korlibs.kbignum:kbignum", version.ref = "kbignumVersion" }
+bignum = { module = "com.ionspin.kotlin:bignum", version.ref = "bignumVersion" }
 kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationVersion" }
 ktorClient = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientVersion" }
 ktorClientLogigng = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientVersion" }
@@ -35,6 +35,7 @@ ktorClientMock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClien
 ktorWebsockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktorClientVersion" }
 ktorClientIos = { module = "io.ktor:ktor-client-ios", version.ref = "ktorClientVersion" }
 klock = { module = "com.soywiz.korlibs.klock:klock", version.ref = "klockVersion" }
+kotlinReflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlinVersion" }
 kotlinTestCommon = { module = "org.jetbrains.kotlin:kotlin-test-common", version.ref = "kotlinVersion" }
 kotlinTestAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlinVersion" }
 kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlinVersion" }

@@ -6,37 +6,21 @@
 
 package dev.icerock.moko.web3
 
-import com.soywiz.kbignum.BigInt
-import com.soywiz.kbignum.bi
-import com.soywiz.kbignum.bn
-import dev.icerock.moko.web3.contract.ABIEncoder
-import dev.icerock.moko.web3.contract.AddressParam
-import dev.icerock.moko.web3.contract.SmartContract
-import dev.icerock.moko.web3.contract.UInt256Param
-import dev.icerock.moko.web3.contract.createErc20TokenAbi
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import com.ionspin.kotlin.bignum.integer.toBigInteger
+import dev.icerock.moko.web3.contract.*
 import dev.icerock.moko.web3.entity.RpcResponse
 import dev.icerock.moko.web3.entity.TransactionReceipt
 import dev.icerock.moko.web3.hex.Hex32String
 import dev.icerock.moko.web3.hex.HexString
 import dev.icerock.moko.web3.hex.internal.toHex
-import dev.icerock.moko.web3.requests.Web3Requests
-import dev.icerock.moko.web3.requests.executeBatch
-import dev.icerock.moko.web3.requests.getEstimateGas
-import dev.icerock.moko.web3.requests.getGasPrice
-import dev.icerock.moko.web3.requests.getNativeBalance
-import dev.icerock.moko.web3.requests.getNativeTransactionCount
-import dev.icerock.moko.web3.requests.getTransaction
-import dev.icerock.moko.web3.requests.getTransactionReceipt
+import dev.icerock.moko.web3.requests.*
 import dev.icerock.moko.web3.requests.polling.newBlocksShortPolling
 import dev.icerock.moko.web3.requests.polling.newLogsShortPolling
-import dev.icerock.moko.web3.requests.waitForTransactionReceipt
-import io.ktor.client.engine.mock.MockRequestHandleScope
-import io.ktor.client.engine.mock.respond
-import io.ktor.client.engine.mock.respondBadRequest
-import io.ktor.client.request.HttpRequestData
-import io.ktor.client.request.HttpResponseData
-import io.ktor.content.TextContent
-import kotlinx.coroutines.flow.collect
+import io.ktor.client.engine.mock.*
+import io.ktor.client.request.*
+import io.ktor.content.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -74,17 +58,17 @@ class Web3Test {
         }
 
         assertEquals(actual = result.txHash, expected = txHash)
-        assertEquals(actual = result.gasPrice, expected = BigInt(8000000000))
-        assertEquals(actual = result.gasLimit, expected = BigInt(322020))
-        assertEquals(actual = result.transactionIndex, expected = BigInt(1))
-        assertEquals(actual = result.nonce, expected = BigInt(74))
+        assertEquals(actual = result.gasPrice, expected = BigInteger(8000000000))
+        assertEquals(actual = result.gasLimit, expected = BigInteger(322020))
+        assertEquals(actual = result.transactionIndex, expected = BigInteger(1))
+        assertEquals(actual = result.nonce, expected = BigInteger(74))
         assertEquals(
             actual = result.blockHash,
             expected = BlockHash("0x3d62f862d25cf7015a485868b07825484fd7a51f77a9e7863fe45ec8a61db01b")
         )
         assertEquals(
             actual = result.blockNumber,
-            expected = BigInt(6352955)
+            expected = BigInteger(6352955)
         )
         assertEquals(
             actual = result.senderAddress,
@@ -121,11 +105,11 @@ class Web3Test {
 
         assertEquals(actual = result.txHash, expected = txHash)
         assertEquals(actual = result.contractAddress, expected = null)
-        assertEquals(actual = result.cumulativeGasUsed, expected = BigInt(241293))
-        assertEquals(actual = result.gasUsed, expected = BigInt(214821))
-        assertEquals(actual = result.transactionIndex, expected = BigInt(1))
+        assertEquals(actual = result.cumulativeGasUsed, expected = BigInteger(241293))
+        assertEquals(actual = result.gasUsed, expected = BigInteger(214821))
+        assertEquals(actual = result.transactionIndex, expected = BigInteger(1))
         assertEquals(actual = result.status, expected = TransactionReceipt.Status.SUCCESS)
-        assertEquals(actual = result.blockNumber, expected = BigInt(6352955))
+        assertEquals(actual = result.blockNumber, expected = BigInteger(6352955))
         assertEquals(
             actual = result.blockHash,
             expected = BlockHash("0x3d62f862d25cf7015a485868b07825484fd7a51f77a9e7863fe45ec8a61db01b")
@@ -145,8 +129,8 @@ class Web3Test {
                 expected = BlockHash("0x3d62f862d25cf7015a485868b07825484fd7a51f77a9e7863fe45ec8a61db01b")
             )
             assertEquals(actual = event.transactionHash, expected = txHash)
-            assertEquals(actual = event.blockNumber, expected = BigInt(6352955))
-            assertEquals(actual = result.transactionIndex, expected = BigInt(1))
+            assertEquals(actual = event.blockNumber, expected = BigInteger(6352955))
+            assertEquals(actual = result.transactionIndex, expected = BigInteger(1))
         }
 
         assertEquals(
@@ -179,7 +163,7 @@ class Web3Test {
             abiJson = createErc20TokenAbi(json)
         )
 
-        val addr = "9a0A2498Ec7f105ef65586592a5B6d4Da3590D74".bi(16)
+        val addr = "9a0A2498Ec7f105ef65586592a5B6d4Da3590D74".toBigInteger(16)
 
         val result = runTest {
             ABIEncoder.encodeCallDataForMethod(
@@ -187,7 +171,7 @@ class Web3Test {
                 method = "transfer",
                 params = listOf(
                     addr,
-                    BigInt(0x10001000)
+                    BigInteger(0x10001000)
                 )
             )
         }
@@ -203,7 +187,7 @@ class Web3Test {
     @Test
     fun `address encoder`() {
         val param = AddressParam
-        val addr = "9a0A2498Ec7f105ef65586592a5B6d4Da3590D74".bi(16)
+        val addr = "9a0A2498Ec7f105ef65586592a5B6d4Da3590D74".toBigInteger(16)
         val result = param.encode(addr)
         val hex = result.toHex()
 
@@ -222,7 +206,7 @@ class Web3Test {
     @Test
     fun `unit256 encoder`() {
         val param = UInt256Param
-        val input = "1234567891011adfdfdeadfea123d34cd342dcd234234ffeedd342432ddff555".bi(16)
+        val input = "1234567891011adfdfdeadfea123d34cd342dcd234234ffeedd342432ddff555".toBigInteger(16)
         val result = param.encode(input)
         val hex = result.toHex()
 
@@ -248,9 +232,9 @@ class Web3Test {
             abiJson = createTestAbi(json)
         )
 
-        val address = "9a0A2498Ec7f105ef65586592a5B6d4Da3590D74".bi(16)
-        val bigInt = "16345785d8a0000".bi(16)
-        val list = listOf(address, bigInt)
+        val address = "9a0A2498Ec7f105ef65586592a5B6d4Da3590D74".toBigInteger(16)
+        val BigInteger = "16345785d8a0000".toBigInteger(16)
+        val list = listOf(address, BigInteger)
 
         val result = runTest {
             ABIEncoder.encodeCallDataForMethod(
@@ -258,7 +242,7 @@ class Web3Test {
                 method = "test",
                 params = listOf(
                     address,
-                    bigInt,
+                    BigInteger,
                     list,
                     listOf(
                         address,
@@ -292,7 +276,7 @@ class Web3Test {
         }
 
         assertEquals(
-            expected = "15658664475937436615".bi,
+            expected = "15658664475937436615".toBigInteger(),
             actual = result
         )
     }
@@ -314,7 +298,7 @@ class Web3Test {
         }
 
         assertEquals(
-            expected = 4725.bi,
+            expected = 4725.toBigInteger(),
             actual = result
         )
     }
@@ -341,11 +325,11 @@ class Web3Test {
         }
 
         assertEquals(
-            expected = 4725.bi,
+            expected = 4725.toBigInteger(),
             actual = nonce
         )
         assertEquals(
-            expected = "15658664475937436615".bi,
+            expected = "15658664475937436615".toBigInteger(),
             actual = balance
         )
     }
@@ -363,7 +347,7 @@ class Web3Test {
         }
         runTest {
             assertEquals(
-                expected = 1000000008.bi,
+                expected = 1000000008.toBigInteger(),
                 actual = web3.getGasPrice()
             )
         }
@@ -422,7 +406,7 @@ class Web3Test {
                 HexString("0x38ed17390000000000000000000000000000000000000000000000000de0b6b3a764000000000000000000000000000000000000000000000000000000002e57839a043800000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000140e21fcfb1e602a1626198d3dbbb58087b59b4e0000000000000000000000000000000000000000000000000000000061e8f26700000000000000000000000000000000000000000000000000000000000000030000000000000000000000009a01bf917477dd9f5d715d188618fc8b7350cd22000000000000000000000000ae13d989dac2f0debff460ac112a837c89baa7cd00000000000000000000000041b5984f45afb2560a0ed72bb69a98e8b32b3cca")
             val to = ContractAddress("0xc43d2c472cf882e0b190063d66ee8ce78bf54da1")
             val from = EthereumAddress("0x140e21fcfb1e602a1626198d3dbbb58087b59b4e")
-            val value = 2_000_000_000_000_000.bi
+            val value = 2_000_000_000_000_000.toBigInteger()
             println("GAS Price: $price")
             println(
                 "GAS Limit: ${
@@ -432,7 +416,7 @@ class Web3Test {
                         gasPrice = price,
                         callData = callData,
                         value = value
-                    ).toString().bn.times(1.1.bn)
+                    ).toString().toBigDecimal().times(1.1.toBigDecimal())
                 }"
             )
         }

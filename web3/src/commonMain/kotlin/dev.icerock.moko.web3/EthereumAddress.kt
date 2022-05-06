@@ -4,12 +4,9 @@
 
 package dev.icerock.moko.web3
 
-import com.soywiz.kbignum.bi
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import dev.icerock.moko.web3.crypto.createChecksummedAddress
 import dev.icerock.moko.web3.hex.Hex20String
-import dev.icerock.moko.web3.hex.Hex32String
-import dev.icerock.moko.web3.hex.Hex8String
-import dev.icerock.moko.web3.hex.HexString
 import dev.icerock.moko.web3.hex.ParametrizedHexStringSerializer
 import kotlinx.serialization.Serializable
 
@@ -21,7 +18,7 @@ open class EthereumAddress(value: String) : Hex20String(value) {
         override val size: Int = 20
         override fun createInstance(value: String): EthereumAddress = EthereumAddress(value)
 
-        val AddressZero = EthereumAddress.createInstance(0.bi)
+        val AddressZero = EthereumAddress.createInstance(0.toBigInteger())
     }
 
     open fun toChecksummedAddress(): EthereumAddress =

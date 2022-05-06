@@ -4,7 +4,7 @@
 
 package dev.icerock.moko.web3.contract
 
-import com.soywiz.kbignum.bi
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import dev.icerock.moko.web3.contract.internal.AbiEntityNotFoundException
 import dev.icerock.moko.web3.crypto.KeccakId
 import dev.icerock.moko.web3.crypto.KeccakParameter
@@ -92,7 +92,7 @@ object ABIEncoder {
             .mapIndexed { index, encodedPart ->
                 when (encodedPart) {
                     is EncodedPart.StaticPart -> encodedPart.encoded
-                    is EncodedPart.DynamicPart -> UInt256Param.encode(dynamicPartsSizes[index].bi)
+                    is EncodedPart.DynamicPart -> UInt256Param.encode(dynamicPartsSizes[index].toBigInteger())
                 }
             }.fold(byteArrayOf()) { acc, part -> acc + part }
 

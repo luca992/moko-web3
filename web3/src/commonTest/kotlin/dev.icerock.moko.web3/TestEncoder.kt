@@ -4,7 +4,7 @@
 
 package dev.icerock.moko.web3
 
-import com.soywiz.kbignum.bi
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import dev.icerock.moko.web3.contract.ABIDecoder
 import dev.icerock.moko.web3.contract.ABIEncoder
 import dev.icerock.moko.web3.hex.HexString
@@ -20,7 +20,7 @@ class TestEncoder {
     @Test
     fun `test string encoder`() {
         val testString = "test"
-        val testNotDynamicParam = 0.bi
+        val testNotDynamicParam = 0.toBigInteger()
         val testBytes = byteArrayOf(0, 11, 22, 33, 44, 55, 66, 77)
 
         val abiJson = createTestAbi(Json)

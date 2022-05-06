@@ -5,12 +5,13 @@
 
 package dev.icerock.moko.web3.crypto
 
-import com.soywiz.kbignum.BigInt
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import kotlin.math.min
 
 object Keccak {
-    private val BIT_65 = BigInt(1).shl(64)
-    private val MAX_64_BITS = BIT_65.minus(BigInt(1))
+    private val BIT_65 = BigInteger(1).shl(64)
+    private val MAX_64_BITS = BIT_65.minus(BigInteger(1))
 
     fun digest(value: ByteArray, parameter: KeccakParameter): ByteArray {
         val uState = IntArray(200)
@@ -62,7 +63,7 @@ object Keccak {
     }
 
     private fun doF(uState: IntArray) {
-        val lState = Array(5) { Array(5) { BigInt(0) } }
+        val lState = Array(5) { Array(5) { BigInteger(0) } }
 
         for (i in 0..4) {
             for (j in 0..4) {
@@ -86,11 +87,11 @@ object Keccak {
     /**
      * Permutation on the given state.
      */
-    private fun roundB(state: Array<Array<BigInt>>) {
+    private fun roundB(state: Array<Array<BigInteger>>) {
         var lfsrState = 1
         for (round in 0..23) {
-            val c = arrayOfNulls<BigInt>(5)
-            val d = arrayOfNulls<BigInt>(5)
+            val c = arrayOfNulls<BigInteger>(5)
+            val d = arrayOfNulls<BigInteger>(5)
 
             // θ step
             for (i in 0..4) {
@@ -124,7 +125,7 @@ object Keccak {
 
             // χ step
             for (j in 0..4) {
-                val t = arrayOfNulls<BigInt>(5)
+                val t = arrayOfNulls<BigInteger>(5)
                 for (i in 0..4) {
                     t[i] = state[i][j]
                 }
@@ -143,7 +144,7 @@ object Keccak {
                 // pow(2, i) - 1
                 val bitPosition = (1 shl i) - 1
                 if (lfsrState and 2 != 0) {
-                    state[0][0] = state[0][0].xor(BigInt(1).shl(bitPosition))
+                    state[0][0] = state[0][0].xor(BigInteger(1).shl(bitPosition))
                 }
             }
         }
@@ -157,20 +158,20 @@ object Keccak {
     }
 
     /**
-     * Converts the given [data] array containing the little endian representation of a number to a [BigInt].
+     * Converts the given [data] array containing the little endian representation of a number to a [BigInteger].
      */
-    private fun convertFromLittleEndianTo64(data: IntArray): BigInt {
+    private fun convertFromLittleEndianTo64(data: IntArray): BigInteger {
         val value = data.map { it.toString(16) }
             .map { if (it.length == 2) it else "0$it" }
             .reversed()
             .joinToString("")
-        return BigInt(value, 16)
+        return value.toBigInteger(16)
     }
 
     /**
-     * Converts the given [BigInt] to a little endian representation as an [IntArray].
+     * Converts the given [BigInteger] to a little endian representation as an [IntArray].
      */
-    private fun convertFrom64ToLittleEndian(uLong: BigInt): IntArray {
+    private fun convertFrom64ToLittleEndian(uLong: BigInteger): IntArray {
         val asHex = uLong.toString(16)
         val asHexPadded = "0".repeat((8 * 2) - asHex.length) + asHex
         return IntArray(8) {
@@ -180,7 +181,7 @@ object Keccak {
         }
     }
 
-    private fun BigInt.leftRotate64Safely(rotate: Int) = leftRotate64(rotate % 64)
+    private fun BigInteger.leftRotate64Safely(rotate: Int) = leftRotate64(rotate % 64)
 
-    private fun BigInt.leftRotate64(rotate: Int) = shr(64 - rotate).plus(shl(rotate)).rem(BIT_65)
+    private fun BigInteger.leftRotate64(rotate: Int) = shr(64 - rotate).plus(shl(rotate)).rem(BIT_65)
 }

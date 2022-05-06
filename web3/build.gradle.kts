@@ -26,7 +26,8 @@ kotlin {
 
 dependencies {
     commonMainImplementation(libs.coroutines)
-    commonMainImplementation(libs.kbignum)
+    commonMainImplementation(libs.bignum)
+    commonMainImplementation(libs.kotlinReflect)
     commonMainImplementation(libs.kotlinSerialization)
     commonMainImplementation(libs.klock)
     commonMainImplementation(libs.ktorClient)

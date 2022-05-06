@@ -4,12 +4,12 @@
 
 package dev.icerock.moko.web3.contract
 
-import com.soywiz.kbignum.bi
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import dev.icerock.moko.web3.contract.ABIEncoder.PART_SIZE
 
 class ListParam<T>(private val subtypeEncoder: Encoder<T>) : DynamicEncoder<List<T>> {
     override fun encode(item: List<T>): ByteArray {
-        val sizeEncoded = UInt256Param.encode(item.size.bi)
+        val sizeEncoded = UInt256Param.encode(item.size.toBigInteger())
         return item
             .map(subtypeEncoder::encode)
             .fold(sizeEncoded) { acc, part -> acc + part }

@@ -4,9 +4,7 @@
 
 package dev.icerock.moko.web3
 
-import com.soywiz.kbignum.BigInt
 import dev.icerock.moko.web3.hex.Hex32String
-import dev.icerock.moko.web3.hex.HexString
 import dev.icerock.moko.web3.hex.ParametrizedHexStringSerializer
 import kotlinx.serialization.Serializable
 

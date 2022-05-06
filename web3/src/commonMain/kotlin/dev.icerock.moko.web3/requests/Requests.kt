@@ -4,8 +4,7 @@
 
 package dev.icerock.moko.web3.requests
 
-import com.soywiz.kbignum.BigInt
-import com.soywiz.kbignum.bi
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import dev.icerock.moko.web3.BlockHash
 import dev.icerock.moko.web3.BlockInfo
 import dev.icerock.moko.web3.BlockState
@@ -38,12 +37,12 @@ suspend fun Web3Executor.getTransactionReceipt(
 suspend fun Web3Executor.getNativeBalance(
     walletAddress: WalletAddress,
     blockState: BlockState = BlockState.Latest
-): BigInt = executeBatch(Web3Requests.getNativeBalance(walletAddress, blockState)).first()
+): BigInteger = executeBatch(Web3Requests.getNativeBalance(walletAddress, blockState)).first()
 
 suspend fun Web3Executor.getNativeTransactionCount(
     walletAddress: WalletAddress,
     blockState: BlockState = BlockState.Pending
-): BigInt = executeBatch(Web3Requests.getNativeTransactionCount(walletAddress, blockState)).first()
+): BigInteger = executeBatch(Web3Requests.getNativeTransactionCount(walletAddress, blockState)).first()
 
 suspend fun <T> Web3Executor.call(
     contractAddress: ContractAddress,
@@ -57,15 +56,15 @@ suspend fun Web3Executor.send(
     signedTransaction: String
 ): TransactionHash = executeBatch(Web3Requests.send(signedTransaction)).first()
 
-suspend fun Web3Executor.getGasPrice(): BigInt = executeBatch(Web3Requests.getGasPrice()).first()
+suspend fun Web3Executor.getGasPrice(): BigInteger = executeBatch(Web3Requests.getGasPrice()).first()
 
 suspend fun Web3Executor.getEstimateGas(
     from: EthereumAddress?,
-    gasPrice: BigInt?,
+    gasPrice: BigInteger?,
     to: EthereumAddress,
     callData: HexString?,
-    value: BigInt?
-): BigInt =
+    value: BigInteger?
+): BigInteger =
     executeBatch(
         Web3Requests.getEstimateGas(
             from = from,
@@ -79,11 +78,11 @@ suspend fun Web3Executor.getEstimateGas(
 suspend fun Web3Executor.getEstimateGas(
     callRpcRequest: CallRpcRequest<*>,
     from: EthereumAddress?,
-    gasPrice: BigInt?,
-    value: BigInt?
-): BigInt = executeBatch(Web3Requests.getEstimateGas(callRpcRequest, from, gasPrice, value)).first()
+    gasPrice: BigInteger?,
+    value: BigInteger?
+): BigInteger = executeBatch(Web3Requests.getEstimateGas(callRpcRequest, from, gasPrice, value)).first()
 
-suspend fun Web3Executor.getBlockNumber(): BigInt = executeBatch(Web3Requests.getBlockNumber()).first()
+suspend fun Web3Executor.getBlockNumber(): BigInteger = executeBatch(Web3Requests.getBlockNumber()).first()
 
 suspend fun Web3Executor.getBlockByNumber(blockState: BlockState): BlockInfo? =
     executeBatch(Web3Requests.getBlockByNumber(blockState)).first()

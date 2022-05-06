@@ -192,7 +192,7 @@ object ABIDecoder {
                 is StaticEncoder<*> -> DecodedPart.Static(decoder.decode(part))
                 // there is no reason for offset to be bigger than Int.MAX_VALUE
                 // Anyway, array/list size is Int
-                is DynamicEncoder<*> -> DecodedPart.Dynamic(decoder, UInt256Param.decode(part).toInt())
+                is DynamicEncoder<*> -> DecodedPart.Dynamic(decoder, UInt256Param.decode(part).intValue(true))
             }
         }
 

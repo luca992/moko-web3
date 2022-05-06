@@ -4,8 +4,9 @@
 
 package dev.icerock.moko.web3
 
-import com.soywiz.kbignum.BigInt
-import com.soywiz.kbignum.bi
+
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import dev.icerock.moko.web3.hex.HexString
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -27,7 +28,7 @@ object BlockStateSerializer : KSerializer<BlockState> {
         "latest" -> BlockState.Latest
         "earliest" -> BlockState.Earliest
         "pending" -> BlockState.Pending
-        else -> BlockState.Quantity(string.bi)
+        else -> BlockState.Quantity(string.toBigInteger())
     }
 
     override fun serialize(encoder: Encoder, value: BlockState) = encoder.encodeString(value.toString())
@@ -49,7 +50,7 @@ sealed interface BlockState {
     }
 
     @JvmInline
-    value class Quantity(private val blockNumber: BigInt) : BlockState {
-        override fun toString() = HexString(blockNumber.toString(radix = 16), strict = false).prefixed
+    value class Quantity(private val blockNumber: BigInteger) : BlockState {
+        override fun toString() = HexString(blockNumber.toString(base = 16), strict = false).prefixed
     }
 }

@@ -4,12 +4,12 @@
 
 package dev.icerock.moko.web3.contract
 
-import com.soywiz.kbignum.bi
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import dev.icerock.moko.web3.contract.ABIEncoder.PART_SIZE
 
 object BytesParam : DynamicEncoder<ByteArray> {
     override fun encode(item: ByteArray): ByteArray {
-        val sizeData = UInt256Param.encode(item.size.bi)
+        val sizeData = UInt256Param.encode(item.size.toBigInteger())
 
         return item
             .asIterable()
@@ -22,7 +22,7 @@ object BytesParam : DynamicEncoder<ByteArray> {
     }
 
     override fun decode(source: ByteArray): ByteArray {
-        val size = UInt256Param.decode(source.take(PART_SIZE).toByteArray()).toInt()
+        val size = UInt256Param.decode(source.take(PART_SIZE).toByteArray()).intValue(true)
         val extraZeros = PART_SIZE - (size % PART_SIZE)
 
         return source
